@@ -1,0 +1,6 @@
+candidate		DCD		211 ; The input prime candidate number
+out			DCD		0  ; The output
+
+; Code Goes Here
+
+			END

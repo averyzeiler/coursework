@@ -1,0 +1,40 @@
+candidate	DCD		211 ; The input prime candidate number
+out		DCD		0  ; The output
+		
+		;		Load input
+		ADR		R1, candidate
+		LDR		R4, [R1] ;R4 permanently stores the input
+		
+		;		Check if branch is 1
+		CMP		R4, #3
+		BLE		prime
+		;		All numbers lower than 3 are prime
+		MOV		R0, #1 	;R0 is the divisor
+		BAL		modloop
+		;		Main program
+modloop	ADD		R0, R0, #1
+		MOV		R3, #0 	;R3 is the floor value of division
+		MOV		R2, R4 	;R2 is the remainder
+		BAL		modulus
+		;		Finds modulus
+modulus	SUB		R2, R2, R0
+		ADD		R3, R3, #1
+		CMP		R2, R0
+		BGE		modulus
+		BLT		compare
+		;		Finds if number is prime or to continue
+compare	CMP		R2, #0
+		BEQ		notprime
+		CMP		R0, R3
+		BGE		prime
+		BLT		modloop
+		;		If number is prime
+prime	MOV		R5, #1 	;R5 stores whether the number is a prime or not
+		BAL		store
+		;		If number is not prime
+notprime	MOV		R5, #0
+		BAL		store
+		;
+store	ADR		R1, out
+		STR		R5, [R1]
+		END
